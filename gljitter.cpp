@@ -16,7 +16,7 @@
 
 #define FRAMERATE 60
 
-#define JOYSTICKID = 0
+#define JOYSTICKID = 1
 
 #define LINC 0.1
 #define LDRAG 0.05
@@ -178,7 +178,7 @@ int main(int argc, const char** argv) {
 	sf::Event event;
 	//sf::Clock clock;
 	float mouseX = 0; float mouseY = 0;
-	float pz = 0;
+	float pz = 0; float lastz = 0;
 	float px = 0; float lastx = 0;
 	float py = 0; float lasty = 0;
 	float camX = 0;
@@ -203,7 +203,7 @@ int main(int argc, const char** argv) {
 	int setA = 1;
 	int setB = 2;
 	bool first = true;
-	int JOYID = 0;
+	int JOYID = 1;
 	
 	while (win.IsOpened()) {
 		
@@ -333,10 +333,11 @@ int main(int argc, const char** argv) {
 			py = scene[setA][i][1] / pz * height + height/2;
 			lastx = scene[setB][i][0] / scene[setB][i][2] * height + width/2;
 			lasty = scene[setB][i][1] / scene[setB][i][2] * height + height/2;
+			lastz = scene[setB][i][2];
 			
 			float mag = sqrt( (px-lastx)*(px-lastx) + (py-lasty)*(py-lasty) ) / 4;
 			float lum = jitter[i];
-			float color = 3000.0 / ( (scene[setA][i][2]+scene[setB][i][2]) / 2) * lum;
+			float color = 8000000.0 / (pz*pz) * lum;
 			float r = color*(lum*-.6+1);
 			float g = color*.6;
 			float b = color*lum;
